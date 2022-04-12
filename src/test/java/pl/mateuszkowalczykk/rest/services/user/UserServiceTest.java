@@ -53,6 +53,35 @@ class UserServiceTest {
   }
 
   @Test
+  void shouldReturnUserWithCalculationsEqualsNull() {
+    //given
+    GithubUser githubUser = dummyGithubUser();
+    // set followers to '0'
+    githubUser.setFollowers(0);
+    String login = githubUser.getLogin();
+
+    given(githubClient.getGithubUserByLogin(login))
+        .willReturn(Optional.of(githubUser));
+
+    //when
+    User resultUser = userService.findByLogin(login);
+
+    //then
+    then(githubClient)
+        .should(times(1))
+        .getGithubUserByLogin(any());
+
+    assertThat(resultUser)
+        .hasFieldOrPropertyWithValue("id", githubUser.getId())
+        .hasFieldOrPropertyWithValue("login", githubUser.getLogin())
+        .hasFieldOrPropertyWithValue("name", githubUser.getName())
+        .hasFieldOrPropertyWithValue("avatarUrl", githubUser.getAvatarUrl())
+        .hasFieldOrPropertyWithValue("type", githubUser.getType())
+        .hasFieldOrPropertyWithValue("createdAt", githubUser.getCreatedAt())
+        .hasFieldOrPropertyWithValue("calculations", null);
+  }
+
+  @Test
   void shouldThrowUserNotFoundException() {
     //given
     String login = "dummyLogin";
