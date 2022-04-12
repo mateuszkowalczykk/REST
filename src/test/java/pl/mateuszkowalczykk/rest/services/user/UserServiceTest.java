@@ -93,7 +93,7 @@ class UserServiceTest {
     //then
     assertThatThrownBy(() -> userService.findByLogin(login))
         .isInstanceOf(UserNotFoundException.class)
-        .hasMessage("Can't find user with login: " + login);
+        .hasMessage("Can't find user with login: '" + login + "'.");
 
     then(githubClient)
         .should(times(1))

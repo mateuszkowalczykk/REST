@@ -20,7 +20,6 @@ public class UserController {
   @GetMapping(value = "/{login}", produces = {"application/json"})
   @ResponseStatus(HttpStatus.OK)
   public User findUserByLogin(@PathVariable("login") String login) {
-    //TODO Handling exceptions
     return userService.findByLogin(login);
   }
 }
