@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,12 +28,15 @@ class UserControllerTest {
   private UserService userService;
 
   @Test
-  void shouldReturnJsonBody() throws Exception {
+  void shouldReturnCorrectJsonBody() throws Exception {
     // given
-    given(userService.findByLogin(any())).willReturn(dummyUser());
+    User user = dummyUser();
+    String login = user.getLogin();
+
+    given(userService.findByLogin(login)).willReturn(user);
 
     // when
-    ResultActions result = mockMvc.perform(get("/users/" + UUID.randomUUID()));
+    ResultActions result = mockMvc.perform(get("/users/" + login));
 
     // then
     then(userService)
@@ -60,6 +62,4 @@ class UserControllerTest {
         .calculations(1d)
         .build();
   }
-
-
 }
