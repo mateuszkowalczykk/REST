@@ -72,12 +72,6 @@ class UserServiceTest {
         .getGithubUserByLogin(any());
 
     assertThat(resultUser)
-        .hasFieldOrPropertyWithValue("id", githubUser.getId())
-        .hasFieldOrPropertyWithValue("login", githubUser.getLogin())
-        .hasFieldOrPropertyWithValue("name", githubUser.getName())
-        .hasFieldOrPropertyWithValue("avatarUrl", githubUser.getAvatarUrl())
-        .hasFieldOrPropertyWithValue("type", githubUser.getType())
-        .hasFieldOrPropertyWithValue("createdAt", githubUser.getCreatedAt())
         .hasFieldOrPropertyWithValue("calculations", null);
   }
 
