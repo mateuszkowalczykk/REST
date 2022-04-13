@@ -70,7 +70,7 @@ class UserControllerTest {
         .andExpect(jsonPath("$.status").value(404))
         .andExpect(jsonPath("$.type").value("Not Found"))
         .andExpect(jsonPath("$.message").value("Can't find user with login: 'anyLogin'."))
-        .andExpect(jsonPath("$.requestDescription").value("uri=/users/" + login));
+        .andExpect(jsonPath("$.requestDetails").value("uri=/users/" + login));
   }
 
   private User dummyUser() {

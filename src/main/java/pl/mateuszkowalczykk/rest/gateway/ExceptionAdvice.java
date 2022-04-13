@@ -23,7 +23,7 @@ public class ExceptionAdvice {
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponseBody> handleOthersExceptions(Exception e, WebRequest request) {
+  public ResponseEntity<ErrorResponseBody> handleUnknownExceptions(Exception e, WebRequest request) {
     log.error(
         "Error for Api request: '{}'. Error: {}.",
         request.getDescription(true),
@@ -52,7 +52,7 @@ public class ExceptionAdvice {
     private final int status;
     private final String type;
     private final String message;
-    private final String requestDescription;
+    private final String requestDetails;
 
     public ErrorResponseBody(HttpStatus httpStatus,
         WebRequest webRequest, String message) {
@@ -62,7 +62,7 @@ public class ExceptionAdvice {
       this.message = message == null ?
           ""
           : message;
-      this.requestDescription = webRequest.getDescription(false);
+      this.requestDetails = webRequest.getDescription(false);
     }
   }
 }
