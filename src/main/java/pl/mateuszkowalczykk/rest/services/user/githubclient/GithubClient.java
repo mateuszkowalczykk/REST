@@ -7,7 +7,6 @@ import org.springframework.web.client.HttpClientErrorException.NotFound;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-//TODO GithubClientTest
 @Component
 public class GithubClient {
 
