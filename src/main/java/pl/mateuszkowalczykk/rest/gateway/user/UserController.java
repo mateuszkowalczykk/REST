@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import pl.mateuszkowalczykk.rest.domainevents.apievents.GetUserByLoginApiEvent;
+import pl.mateuszkowalczykk.rest.domainevents.DomainEventPublisher;
 import pl.mateuszkowalczykk.rest.services.user.User;
 import pl.mateuszkowalczykk.rest.services.user.UserService;
 
@@ -16,10 +18,12 @@ import pl.mateuszkowalczykk.rest.services.user.UserService;
 public class UserController {
 
   private final UserService userService;
+  private final DomainEventPublisher domainEventPublisher;
 
   @GetMapping(value = "/{login}", produces = {"application/json"})
   @ResponseStatus(HttpStatus.OK)
   public User findUserByLogin(@PathVariable("login") String login) {
+    domainEventPublisher.publish(new GetUserByLoginApiEvent(login));
     return userService.findByLogin(login);
   }
 }
