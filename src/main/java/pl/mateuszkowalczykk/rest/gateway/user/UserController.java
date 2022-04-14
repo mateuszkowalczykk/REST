@@ -23,6 +23,7 @@ public class UserController {
   @GetMapping(value = "/{login}", produces = {"application/json"})
   @ResponseStatus(HttpStatus.OK)
   public User findUserByLogin(@PathVariable("login") String login) {
+    // TODO should login be case sensitive?
     domainEventPublisher.publish(new GetUserByLoginApiEvent(login));
     return userService.findByLogin(login);
   }
