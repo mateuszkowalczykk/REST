@@ -1,6 +1,5 @@
 package pl.mateuszkowalczykk.rest.gateway;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -9,6 +8,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 
 import java.time.LocalDateTime;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -57,14 +57,23 @@ class ExceptionAdviceTest {
     // then
     then(requestMock).should(times(2)).getDescription(anyBoolean());
 
-    assertThat(result.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    SoftAssertions softly = new SoftAssertions();
 
-    assertThat(result.getBody())
+    softly
+        .assertThat(result.getStatusCode())
+        .as("Status code")
+        .isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+
+    softly
+        .assertThat(result.getBody())
+        .as("Response body")
         .hasFieldOrPropertyWithValue(
             "timestamp", LocalDateTime.parse("2022-04-13T14:49:25.000000123"))
         .hasFieldOrPropertyWithValue("status", 500)
         .hasFieldOrPropertyWithValue("type", "Internal Server Error")
         .hasFieldOrPropertyWithValue("message", "")
         .hasFieldOrPropertyWithValue("requestDetails", requestDetails);
+
+    softly.assertAll();
   }
 }

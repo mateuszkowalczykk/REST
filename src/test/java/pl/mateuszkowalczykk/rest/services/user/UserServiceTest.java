@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,28 +20,23 @@ import pl.mateuszkowalczykk.rest.services.user.githubclient.GithubUser;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
-  @InjectMocks
-  private UserService userService;
+  @InjectMocks private UserService userService;
 
-  @Mock
-  private GithubClient githubClient;
+  @Mock private GithubClient githubClient;
 
   @Test
   void shouldReturnMappedGithubUser() {
-    //given
+    // given
     GithubUser githubUser = dummyGithubUser();
     String login = githubUser.getLogin();
 
-    given(githubClient.getGithubUserByLogin(login))
-        .willReturn(Optional.of(githubUser));
+    given(githubClient.getGithubUserByLogin(login)).willReturn(Optional.of(githubUser));
 
-    //when
+    // when
     User resultUser = userService.findByLogin(login);
 
-    //then
-    then(githubClient)
-        .should(times(1))
-        .getGithubUserByLogin(any());
+    // then
+    then(githubClient).should(times(1)).getGithubUserByLogin(any());
 
     assertThat(resultUser)
         .hasFieldOrPropertyWithValue("id", githubUser.getId())
@@ -54,44 +50,37 @@ class UserServiceTest {
 
   @Test
   void shouldReturnUserWithCalculationsEqualsNull() {
-    //given
+    // given
     GithubUser githubUser = dummyGithubUser();
     // set followers to '0'
     githubUser.setFollowers(0);
     String login = githubUser.getLogin();
 
-    given(githubClient.getGithubUserByLogin(login))
-        .willReturn(Optional.of(githubUser));
+    given(githubClient.getGithubUserByLogin(login)).willReturn(Optional.of(githubUser));
 
-    //when
+    // when
     User resultUser = userService.findByLogin(login);
 
-    //then
-    then(githubClient)
-        .should(times(1))
-        .getGithubUserByLogin(any());
+    // then
+    then(githubClient).should(times(1)).getGithubUserByLogin(any());
 
-    assertThat(resultUser)
-        .hasFieldOrPropertyWithValue("calculations", null);
+    assertThat(resultUser).hasFieldOrPropertyWithValue("calculations", null);
   }
 
   @Test
   void shouldThrowUserNotFoundException() {
-    //given
+    // given
     String login = "dummyLogin";
 
-    given(githubClient.getGithubUserByLogin(login))
-        .willReturn(Optional.empty());
+    given(githubClient.getGithubUserByLogin(login)).willReturn(Optional.empty());
 
-    //when
-    //then
+    // when
+    // then
     assertThatThrownBy(() -> userService.findByLogin(login))
         .isInstanceOf(UserNotFoundException.class)
         .hasMessage("Can't find user with login: '" + login + "'.");
 
-    then(githubClient)
-        .should(times(1))
-        .getGithubUserByLogin(any());
+    then(githubClient).should(times(1)).getGithubUserByLogin(any());
   }
 
   private GithubUser dummyGithubUser() {
@@ -101,7 +90,7 @@ class UserServiceTest {
     githubUser.setName("Dummy Name");
     githubUser.setAvatarUrl("https://avatars.githubusercontent.com/u/583231?v=4");
     githubUser.setType("User");
-    githubUser.setCreatedAt("2011-01-25T18:44:36Z");
+    githubUser.setCreatedAt(LocalDateTime.parse("2011-01-25T18:44:36"));
     githubUser.setPublicRepositories(6);
     githubUser.setFollowers(3);
     return githubUser;

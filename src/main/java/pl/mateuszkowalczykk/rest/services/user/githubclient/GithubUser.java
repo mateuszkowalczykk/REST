@@ -1,6 +1,7 @@
 package pl.mateuszkowalczykk.rest.services.user.githubclient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
@@ -18,7 +19,7 @@ public class GithubUser {
   private String avatarUrl;
 
   @JsonProperty("created_at")
-  private String createdAt;
+  private LocalDateTime createdAt;
 
   private int followers;
 

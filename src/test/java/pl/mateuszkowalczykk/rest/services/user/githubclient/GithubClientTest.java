@@ -6,6 +6,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,11 +27,9 @@ import pl.mateuszkowalczykk.rest.config.RestTemplateConfig;
 @SpringBootTest(classes = {RestTemplateConfig.class, GithubClient.class})
 class GithubClientTest {
 
-  @Autowired
-  private GithubClient githubClient;
+  @Autowired private GithubClient githubClient;
 
-  @Autowired
-  private RestTemplate restTemplate;
+  @Autowired private RestTemplate restTemplate;
 
   @Value("${urls.github}")
   private String githubUrl;
@@ -72,7 +71,7 @@ class GithubClientTest {
         .hasFieldOrPropertyWithValue(
             "avatarUrl", "https://avatars.githubusercontent.com/u/583231?v=4")
         .hasFieldOrPropertyWithValue("type", "User")
-        .hasFieldOrPropertyWithValue("createdAt", "2011-01-25T18:44:36Z")
+        .hasFieldOrPropertyWithValue("createdAt", LocalDateTime.parse("2011-01-25T18:44:36"))
         .hasFieldOrPropertyWithValue("publicRepositories", 8)
         .hasFieldOrPropertyWithValue("followers", 5526);
   }

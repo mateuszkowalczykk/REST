@@ -1,5 +1,6 @@
 package pl.mateuszkowalczykk.rest.services.user;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class User {
 
   private String avatarUrl;
 
-  private String createdAt;
+  private LocalDateTime createdAt;
 
   private Double calculations;
 }

@@ -1,4 +1,4 @@
-package pl.mateuszkowalczykk.rest.gateway;
+package pl.mateuszkowalczykk.rest.gateway.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ class UserControllerTest {
         .andExpect(
             content()
                 .json(
-                    "{\"id\":12345,\"login\":\"dummyLogin\",\"name\":\"Dummy Name\",\"type\":\"User\",\"avatarUrl\":\"https://avatars.githubusercontent.com/u/583231?v=4\",\"createdAt\":\"2011-01-25T18:44:36Z\",\"calculations\":1.0}"));
+                    "{\"id\":12345,\"login\":\"dummyLogin\",\"name\":\"Dummy Name\",\"type\":\"User\",\"avatarUrl\":\"https://avatars.githubusercontent.com/u/583231?v=4\",\"createdAt\":\"2011-01-25T18:44:36\",\"calculations\":1.0}"));
 
     // verify published event
     ArgumentCaptor<GetUserByLoginApiEvent> eventCaptor =
@@ -100,7 +101,7 @@ class UserControllerTest {
         .name("Dummy Name")
         .avatarUrl("https://avatars.githubusercontent.com/u/583231?v=4")
         .type("User")
-        .createdAt("2011-01-25T18:44:36Z")
+        .createdAt(LocalDateTime.parse("2011-01-25T18:44:36"))
         .calculations(1d)
         .build();
   }
